@@ -29,8 +29,8 @@
         <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path
             d="M7.66671 13.9999C11.1645 13.9999 14 11.1644 14 7.66659C14 4.16878 11.1645 1.33325 7.66671 1.33325C4.1689 1.33325 1.33337 4.16878 1.33337 7.66659C1.33337 11.1644 4.1689 13.9999 7.66671 13.9999Z"
-            stroke="#1C1C1C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-          <path d="M14.6667 14.6666L13.3334 13.3333" stroke="#1C1C1C" stroke-width="1.5" stroke-linecap="round"
+            stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M14.6667 14.6666L13.3334 13.3333" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
                 stroke-linejoin="round"/>
         </svg>
       </button>
@@ -68,14 +68,14 @@
 </header>
 
 <main>
-  <div class="catalog">
+  <div class="catalog" hidden>
     <div class="container catalog__container">
       <ul class="catalog__list">
         <li class="catalog__item">
           <a class="catalog__link" href="/category?slug=Диваны">Диваны</a>
         </li>
         <li class="catalog__item">
-          <a class="catalog__link" href="/category?slug=Шкафы">Шкафы</a>
+          <a class="catalog__link catalog__link_active" href="/category?slug=Шкафы">Шкафы</a>
         </li>
         <li class="catalog__item">
           <a class="catalog__link" href="/category?slug=Стулья">Стулья</a>
@@ -105,7 +105,7 @@
     </div>
   </div>
   
-  <div class="breadcrumb">
+  <div class="breadcrumb" hidden>
     <div class="container">
       <ul class="breadcrumb__list">
         <li class="breadcrumb__item">
@@ -124,23 +124,25 @@
     </div>
   </div>
   
-  <section class="goods">
+  <section class="goods" hidden>
     <div class="container">
       <h2 class="goods__title">Избранное</h2>
       <ul class="goods__list">
         <li class="goods__item">
           <article class="goods__card card">
-            <a class="card__link" href="/product">
+            <a class="card__link card__link_img" href="/product">
               <img class="card__img" src="/img/photo.jpg" alt="Кресло с подлокотниками">
             </a>
             
-            <h3 class="card__title">
-              <a class="card__link" href="/product">
-                Кресло с подлокотниками
-              </a>
-            </h3>
+            <div class="card__info">
+              <h3 class="card__title">
+                <a class="card__link" href="/product">
+                  Кресло с подлокотниками
+                </a>
+              </h3>
+              <p class="card__price">5&nbsp;000&nbsp;₽</p>
+            </div>
             
-            <p class="card__price">5&nbsp;000&nbsp;₽</p>
             <button class="card__btn" type="button">В корзину</button>
             <button class="card__favorite" type="button">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
@@ -150,18 +152,22 @@
               </svg>
             </button>
           </article>
+        </li>
+        <li class="goods__item">
           <article class="goods__card card">
-            <a class="card__link" href="/product">
+            <a class="card__link card__link_img" href="/product">
               <img class="card__img" src="/img/photo.jpg" alt="Кресло с подлокотниками">
             </a>
             
-            <h3 class="card__title">
-              <a class="card__link" href="/product">
-                Кресло с подлокотниками
-              </a>
-            </h3>
+            <div class="card__info">
+              <h3 class="card__title">
+                <a class="card__link" href="/product">
+                  Кресло с подлокотниками
+                </a>
+              </h3>
+              <p class="card__price">5&nbsp;000&nbsp;₽</p>
+            </div>
             
-            <p class="card__price">5&nbsp;000&nbsp;₽</p>
             <button class="card__btn" type="button">В корзину</button>
             <button class="card__favorite" type="button">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
@@ -171,18 +177,22 @@
               </svg>
             </button>
           </article>
+        </li>
+        <li class="goods__item">
           <article class="goods__card card">
-            <a class="card__link" href="/product">
+            <a class="card__link card__link_img" href="/product">
               <img class="card__img" src="/img/photo.jpg" alt="Кресло с подлокотниками">
             </a>
             
-            <h3 class="card__title">
-              <a class="card__link" href="/product">
-                Кресло с подлокотниками
-              </a>
-            </h3>
+            <div class="card__info">
+              <h3 class="card__title">
+                <a class="card__link" href="/product">
+                  Кресло с подлокотниками
+                </a>
+              </h3>
+              <p class="card__price">5&nbsp;000&nbsp;₽</p>
+            </div>
             
-            <p class="card__price">5&nbsp;000&nbsp;₽</p>
             <button class="card__btn" type="button">В корзину</button>
             <button class="card__favorite" type="button">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
@@ -192,18 +202,22 @@
               </svg>
             </button>
           </article>
+        </li>
+        <li class="goods__item">
           <article class="goods__card card">
-            <a class="card__link" href="/product">
+            <a class="card__link card__link_img" href="/product">
               <img class="card__img" src="/img/photo.jpg" alt="Кресло с подлокотниками">
             </a>
             
-            <h3 class="card__title">
-              <a class="card__link" href="/product">
-                Кресло с подлокотниками
-              </a>
-            </h3>
+            <div class="card__info">
+              <h3 class="card__title">
+                <a class="card__link" href="/product">
+                  Кресло с подлокотниками
+                </a>
+              </h3>
+              <p class="card__price">5&nbsp;000&nbsp;₽</p>
+            </div>
             
-            <p class="card__price">5&nbsp;000&nbsp;₽</p>
             <button class="card__btn" type="button">В корзину</button>
             <button class="card__favorite" type="button">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
@@ -218,7 +232,7 @@
     </div>
   </section>
   
-  <section class="product">
+  <section class="product" hidden>
     <div class="container">
       <h2 class="product__title">Кресло с подлокотниками</h2>
       <div class="product__picture">
@@ -351,7 +365,7 @@
     </div>
   </section>
   
-  <section class="cart">
+  <section class="cart" hidden>
     <div class="container cart__container">
       <h2 class="cart__title">Корзина</h2>
       
@@ -416,21 +430,25 @@
         
         <fieldset class="form-order__fieldset form-order__fieldset_radio">
           <legend class="form-order__legend">Доставка</legend>
-          <label class="form-order__label radio" >
-            <input class="radio__input" type="radio" name="deliveryType" value="delivery">Доставка
+          <label class="form-order__label radio">
+            <input class="radio__input" type="radio" name="deliveryType" value="delivery">
+            Доставка
           </label>
-          <label class="form-order__label radio" >
-            <input class="radio__input" type="radio" name="deliveryType" value="pickup">Самовывоз
+          <label class="form-order__label radio">
+            <input class="radio__input" type="radio" name="deliveryType" value="pickup">
+            Самовывоз
           </label>
         </fieldset>
         
         <fieldset class="form-order__fieldset form-order__fieldset_radio">
           <legend class="form-order__legend">Оплата</legend>
-          <label class="form-order__label radio" >
-            <input class="radio__input" type="radio" name="paymentType" value="card">Картой при получении
+          <label class="form-order__label radio">
+            <input class="radio__input" type="radio" name="paymentType" value="cart">
+            Картой при получении
           </label>
-          <label class="form-order__label radio" >
-            <input class="radio__input" type="radio" name="paymentType" value="cash">Наличными при получении
+          <label class="form-order__label radio">
+            <input class="radio__input" type="radio" name="paymentType" value="cash">
+            Наличными при получении
           </label>
         </fieldset>
       </form>
@@ -438,7 +456,7 @@
   </section>
   
   <section class="order">
-    <div class="container">
+    <div class="container order__container">
       <div class="order__successfully">
         <h2 class="order__title">Заказ успешно размещен</h2>
         <p class="order__amount">20&nbsp;000&nbsp;₽</p>
@@ -473,12 +491,12 @@
           </tr>
         </table>
       </div>
-      <a class="order__to-main-page" href="/">На главную</a>
+      <a class="order__btn" href="/">На главную</a>
     </div>
   </section>
 </main>
 
-<footer class="footer">
+<footer class="footer" hidden>
   <div class="container footer__container">
     <a class="footer__link-logo" href="/">
       <img class="footer__logo" src="/img/logo.svg" alt="Логотип мебельного магазина Koff">

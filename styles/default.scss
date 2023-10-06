@@ -34,6 +34,11 @@ body {
 
 main {
   flex-grow: 1;
+  padding-bottom: 80px;
+
+  @media (min-width: 580px) {
+    padding-bottom: 100px;
+  }
 }
 
 img,
@@ -60,7 +65,7 @@ a {
 }
 
 ul {
-  //list-style: none;
+  list-style: none;
   padding: 0;
   margin: 0;
 }
