@@ -88,15 +88,14 @@
     grid-area: control;
     justify-self: end;
     display: flex;
-    //align-items: center;
-    //justify-content: space-between;
     gap: 16px;
   }
 
   &__link {
     display: flex;
     flex-direction: row-reverse;
-    align-items: end;
+    align-items: center;
+    gap: 4px;
 
     &:hover,
     &:active {
