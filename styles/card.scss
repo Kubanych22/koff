@@ -1,5 +1,6 @@
 .card {
   position: relative;
+  height: 100%;
 
   &__link {
     &_img {
@@ -14,8 +15,17 @@
 
   &__img {
     width: 100%;
+    aspect-ratio: 7/6;
     object-fit: cover;
     border-radius: 16px;
+
+    @media (min-width: 540px) {
+      aspect-ratio: 23/20;
+    }
+
+    @media (min-width: 820px) {
+      aspect-ratio: 151/125;
+    }
   }
 
   &__info {
