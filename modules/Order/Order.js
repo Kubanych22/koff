@@ -16,12 +16,27 @@ export class Order {
     return Order.instance;
   }
   
-  mount() {
+  mount(parent, title) {
+    this.containerElement.textContent = '';
+    
+    const titleElem = document.createElement('h2');
+    
+    titleElem.textContent = title ? title : 'Список товаров';
+    
+    titleElem.className = title
+      ? 'order__title'
+      : 'order__title visually-hidden';
+    
+    this.containerElement.append(titleElem);
+    
+    this.containerElement.innerHTML = this.getHTML();
+    
     if (this.isMounted) {
       return;
     }
-    this.containerElement.insertAdjacentHTML('beforeend', this.getHTML());
-    document.body.append(this.element);
+    
+    parent.append(this.element);
+    
     this.isMounted = true;
   }
   

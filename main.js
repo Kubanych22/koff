@@ -4,7 +4,8 @@ import Navigo from 'navigo';
 import {Header} from './modules/Header/Header';
 import {Main} from './modules/Main/Main';
 import {Footer} from './modules/Footer/Footer';
-import {Order} from './modules/Main/Order';
+import {Order} from './modules/Order/Order';
+import {ProductList} from './modules/ProductList/ProductList';
 
 const productSlider = () => {
   Promise.all([
@@ -30,7 +31,6 @@ const productSlider = () => {
         swiper: swiperThumbnails,
       },
     });
-    
   });
 };
 
@@ -39,8 +39,6 @@ const init = () => {
   
   new Main().mount();
   
-  new Order().mount(new Main().element);
-  
   new Footer().mount();
   
   productSlider();
@@ -48,34 +46,80 @@ const init = () => {
   const router = new Navigo('/', {linksSelector: 'a[href^="/"]'});
   
   router
-    .on('/', () => {
-    console.log('На главной');
-  })
-    .on('/category', (obj) => {
-      console.log(obj);
-      console.log('category');
-    })
+    .on('/',
+      () => {
+        new ProductList().mount(new Main().element, [1, 2, 3, 4]);
+      },
+      {
+        leave(done) {
+          console.log('leave');
+          done();
+        },
+        already() {
+          console.log('already');
+        },
+      },
+    )
+    
+    .on('/category',
+      () => {
+        new ProductList().mount(new Main().element, [1, 2], 'Категория');
+      },
+      {
+        leave(done) {
+          console.log('leave');
+          done();
+        },
+      },
+    )
+    
     .on('/favorite', () => {
-      console.log('favorite');
-    })
+        new ProductList().mount(new Main().element, [1, 2, 3], 'Избранное');
+      },
+      {
+        leave(done) {
+          console.log('leave');
+          done();
+        },
+      },
+    )
+    
     .on('/search', () => {
-      console.log('search');
-    })
+        console.log('search');
+      },
+    )
+    
     .on('/product/:id', (obj) => {
-      console.log('obj: ', obj);
-    })
+        console.log('obj: ', obj);
+      },
+    )
     
     .on('/cart', () => {
-      console.log('cart');
-    })
+        console.log('cart');
+      },
+    )
     
     .on('/order', () => {
-      console.log('order');
-    })
+      new Order().mount(new Main().element);
+      },
+      {
+        leave(done) {
+          new Order().unmoumt();
+          done();
+        },
+      },
+    )
     
     .notFound(() => {
-      document.body.innerHTML = '<h2>Страница не найдена</h2>'
-    })
+      new Main().element.innerHTML = `
+        <h2>Страница не найдена</h2>
+        <p>Через 5 секунд Вы будете перенаправлены <a href="/">на главную страницу</a></p>
+      `;
+      
+      setTimeout(() => {
+        router.navigate('/');
+      }, 5000);
+    });
   router.resolve();
 };
 
