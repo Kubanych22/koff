@@ -44,6 +44,7 @@
     border-radius: 32px;
     outline: none;
     border: 1px solid transparent;
+    white-space: nowrap;
 
     &:hover,
     &:focus-visible {
@@ -55,12 +56,14 @@
     &_active {
       color: #ffffff;
       background-color: #780096;
-      pointer-events: none;
       &:hover,
       &:focus-visible {
         border-color: #780096;
         color: #ffffff;
       }
+    }
+    &_active {
+      pointer-events: none;
     }
   }
 }

@@ -6,6 +6,8 @@ import {Main} from './modules/Main/Main';
 import {Footer} from './modules/Footer/Footer';
 import {Order} from './modules/Order/Order';
 import {ProductList} from './modules/ProductList/ProductList';
+import {ApiService} from './services/ApiService';
+import {Catalog} from './modules/Catalog/Catalog';
 
 const productSlider = () => {
   Promise.all([
@@ -34,25 +36,37 @@ const productSlider = () => {
   });
 };
 
+// const init = async () => {
 const init = () => {
+  const api = new ApiService();
+  const router = new Navigo('/', {linksSelector: 'a[href^="/"]'});
+  
+  // api.getAccessKey().then();
+  
   new Header().mount();
   
   new Main().mount();
   
   new Footer().mount();
   
-  productSlider();
+  // await api.getProductCategories().then(data => {
+    api.getProductCategories().then(data => {
+    new Catalog().mount(new Main().element, data);
+    router.updatePageLinks();
+  });
   
-  const router = new Navigo('/', {linksSelector: 'a[href^="/"]'});
+  productSlider();
   
   router
     .on('/',
-      () => {
-        new ProductList().mount(new Main().element, [1, 2, 3, 4]);
+      async () => {
+        const product = await api.getProducts();
+        new ProductList().mount(new Main().element, product);
+        router.updatePageLinks();
       },
       {
         leave(done) {
-          console.log('leave');
+          new ProductList().unmoumt();
           done();
         },
         already() {
@@ -62,23 +76,28 @@ const init = () => {
     )
     
     .on('/category',
-      () => {
-        new ProductList().mount(new Main().element, [1, 2], 'Категория');
+      async ({params: {slug}}) => {
+        const product = await api.getProducts();
+        new ProductList().mount(new Main().element, product, slug);
+        router.updatePageLinks();
       },
       {
         leave(done) {
-          console.log('leave');
+          new ProductList().unmoumt();
           done();
         },
       },
     )
     
-    .on('/favorite', () => {
-        new ProductList().mount(new Main().element, [1, 2, 3], 'Избранное');
+    .on('/favorite',
+      async () => {
+        const product = await api.getProducts();
+        new ProductList().mount(new Main().element, product, 'Избранное');
+        router.updatePageLinks();
       },
       {
         leave(done) {
-          console.log('leave');
+          new ProductList().unmoumt();
           done();
         },
       },
@@ -100,7 +119,8 @@ const init = () => {
     )
     
     .on('/order', () => {
-      new Order().mount(new Main().element);
+        new Order().mount(new Main().element);
+        router.updatePageLinks();
       },
       {
         leave(done) {
@@ -110,17 +130,33 @@ const init = () => {
       },
     )
     
-    .notFound(() => {
-      new Main().element.innerHTML = `
-        <h2>Страница не найдена</h2>
-        <p>Через 5 секунд Вы будете перенаправлены <a href="/">на главную страницу</a></p>
+    .notFound(
+      () => {
+        new Main().element.innerHTML = `
+        <h2 class="temp">Страница не найдена</h2>
+        <p class="temp">Через 5 секунд Вы будете перенаправлены <a href="/">на главную страницу</a></p>
       `;
-      
-      setTimeout(() => {
-        router.navigate('/');
-      }, 5000);
-    });
+        
+        setTimeout(() => {
+          router.navigate('/');
+        }, 5000);
+      },
+      {
+        leave(done) {
+          const pageNotFound = new Main().element.querySelectorAll('.temp');
+          // выберем все элементы в <body>
+          // const els = new Main().element.getElementsByTagName('*');
+          for (let elem of pageNotFound) {
+            console.log('elem:', elem);
+            elem.remove();
+          }
+          done();
+        },
+      },
+    );
+  
   router.resolve();
 };
 
+// init().then();
 init();
