@@ -139,13 +139,11 @@ const init = () => {
         
         setTimeout(() => {
           router.navigate('/');
-        }, 5000);
+        }, 3000);
       },
       {
         leave(done) {
           const pageNotFound = new Main().element.querySelectorAll('.temp');
-          // выберем все элементы в <body>
-          // const els = new Main().element.getElementsByTagName('*');
           for (let elem of pageNotFound) {
             console.log('elem:', elem);
             elem.remove();

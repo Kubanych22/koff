@@ -2,7 +2,6 @@
 export class Main {
   static instance = null;
   
-  
   constructor() {
     if (!Main.instance) {
       Main.instance = this;
