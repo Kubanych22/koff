@@ -1,5 +1,5 @@
 import {addContainer} from '../addContainer';
-import {API_URL} from '../../const';
+
 import {Card} from '../../features/Card/Card';
 
 export class ProductList {
@@ -13,14 +13,12 @@ export class ProductList {
       this.element.classList.add('goods');
       this.containerElement = addContainer(this.element, 'goods__container');
       this.isMounted = false;
-      
-      // this.addEvents();
     }
     
     return ProductList.instance;
   }
   
-  mount(parent, data, title) {
+  mount(parent, data, title, emptyText) {
     this.containerElement.textContent = '';
     
     const titleElem = document.createElement('h2');
@@ -33,7 +31,13 @@ export class ProductList {
     
     this.containerElement.append(titleElem);
     
-    this.updateListElem(data);
+    if (data && data.length) {
+      this.updateListElem(data);
+    } else {
+      this.containerElement.insertAdjacentHTML('beforeend', `
+        <p class="goods__empty">${emptyText || 'Произошла ошибка. Попробуйте снова'}</p>
+      `)
+    }
     
     if (this.isMounted) {
       return;
@@ -60,11 +64,7 @@ export class ProductList {
     this.containerElement.append(listElem);
   }
   
-  // addEvents() {
-  //
-  // }
-  
-  unmoumt() {
+  unmount() {
     this.element.remove();
     this.isMounted = false;
   }

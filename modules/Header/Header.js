@@ -32,7 +32,7 @@ export class Header {
     this.isMounted = true;
   }
   
-  unmoumt() {
+  unmount() {
     this.element.remove();
     this.isMounted = false;
   }

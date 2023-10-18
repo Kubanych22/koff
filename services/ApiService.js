@@ -1,12 +1,12 @@
 import {API_URL} from '../const';
 import axios from 'axios';
-import {AccessKeyService} from "./StorageService.js";
+import {AccessKeyService} from './StorageService.js';
 
 export class ApiService {
   #apiUrl = API_URL;
   
   constructor() {
-    this.accessKeyService = new AccessKeyService('accessKey')
+    this.accessKeyService = new AccessKeyService('accessKey');
     this.accessKey = this.accessKeyService.get();
   }
   
@@ -47,21 +47,11 @@ export class ApiService {
     }
   }
   
-  // async getProducts(page = 1, limit = 20, list, category, q) {
-  //   return await this.getData('api/products', {
-  //     page,
-  //     limit,
-  //     list,
-  //     category,
-  //     q,
-  //   });
-  // }
-  
   async getProducts(params = {}) {
-    if (params.list) {
-      params.list = params.list.join(",");
-    }
-    return await this.getData("api/products", params);
+    // if (params.list) {
+    //   params.list = params.list.join(',');
+    // }
+    return await this.getData('api/products', params);
   }
   
   async getProductCategories() {

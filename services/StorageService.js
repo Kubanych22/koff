@@ -18,6 +18,7 @@ class StorageService {
     }
     localStorage.setItem(this.key, data);
   }
+  
   delete() {
     localStorage.removeItem(this.key);
   }
@@ -25,6 +26,7 @@ class StorageService {
 
 export class FavoriteService extends StorageService {
   static instance;
+  
   constructor(key = 'favorite') {
     if (!FavoriteService.instance) {
       super(key);
@@ -33,6 +35,7 @@ export class FavoriteService extends StorageService {
     }
     return FavoriteService.instance;
   }
+  
   get() {
     const data = super.get();
     if (data) {
@@ -52,14 +55,14 @@ export class FavoriteService extends StorageService {
   remove(value) {
     if (this.check(value)) {
       this.favorite.delete(value);
-      this.set(...this.favorite);
+      this.set([...this.favorite]);
       return true;
     }
     return false;
   }
   
   check(value) {
-    return this.favorite.has(value)
+    return this.favorite.has(value);
   }
 }
 

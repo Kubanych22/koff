@@ -4,7 +4,6 @@ import {Logo} from '../../features/Logo/Logo';
 export class Footer {
   static instance = null;
   
-  
   constructor() {
     if (!Footer.instance) {
       Footer.instance = this;
@@ -31,7 +30,7 @@ export class Footer {
     this.isMounted = true;
   }
   
-  unmoumt() {
+  unmount() {
     this.element.remove();
     this.isMounted = false;
   }
