@@ -2,7 +2,6 @@ import {addContainer} from '../addContainer.js';
 import {API_URL} from '../../const.js';
 import {CartButton} from '../../features/CartButton/CartButton.js';
 import {LikeButton} from '../../features/LikeButton/LikeButton.js';
-import {router} from '../../main.js';
 
 export class ProductCard {
   static instance = null;
@@ -26,7 +25,7 @@ export class ProductCard {
       return;
     }
     parent.append(this.element);
-    console.log('Добавление секции', this.element);
+    
     this.isMounted = true;
   }
   

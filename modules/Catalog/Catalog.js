@@ -12,6 +12,7 @@ export class Catalog {
       this.element.classList.add('catalog');
       this.containerElement = addContainer(this.element, 'catalog__container');
       this.isMounted = false;
+      this.linkList = [];
     }
     
     return Catalog.instance;
@@ -23,7 +24,7 @@ export class Catalog {
   
   async mount(parent) {
     if (this.isMounted) {
-      return;
+      return this;
     }
     
     
@@ -34,6 +35,10 @@ export class Catalog {
     
     parent.prepend(this.element);
     this.isMounted = true;
+    this.linkList.forEach(link => {
+      link.classList.remove('catalog__link_active');
+    });
+    return this;
   }
   
   unmount() {
@@ -49,6 +54,7 @@ export class Catalog {
       const listItemElem = document.createElement('li');
       listItemElem.classList.add('catalog__item');
       const link = document.createElement('a');
+      this.linkList.push(link);
       link.classList.add('catalog__link');
       link.href = `/category?slug=${item}`;
       link.textContent = item;
@@ -57,5 +63,17 @@ export class Catalog {
     });
     listElem.append(...listItems);
     this.containerElement.append(listElem);
+  }
+  
+  setActiveLink(slug) {
+    const encodedSlug = encodeURIComponent(slug);
+    this.linkList.forEach(link => {
+      const linkSlug = new URL(link.href).searchParams.get('slug');
+      if (encodeURIComponent(linkSlug) === encodedSlug) {
+        link.classList.add('catalog__link_active');
+      } else {
+        link.classList.remove('catalog__link_active');
+      }
+    });
   }
 }

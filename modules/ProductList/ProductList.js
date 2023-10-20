@@ -26,8 +26,8 @@ export class ProductList {
     titleElem.textContent = title ? title : 'Список товаров';
     
     titleElem.className = title
-      ? 'goods__title'
-      : 'goods__title visually-hidden';
+        ? 'goods__title'
+        : 'goods__title visually-hidden';
     
     this.containerElement.append(titleElem);
     
@@ -36,7 +36,7 @@ export class ProductList {
     } else {
       this.containerElement.insertAdjacentHTML('beforeend', `
         <p class="goods__empty">${emptyText || 'Произошла ошибка. Попробуйте снова'}</p>
-      `)
+      `);
     }
     
     if (this.isMounted) {

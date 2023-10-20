@@ -13,6 +13,7 @@ import {Pagination} from './features/Pagination/Pagination';
 import {BreadCrumbs} from './features/BreadCrumbs/BreadCrumbs';
 import {ProductCard} from './modules/ProductCard/ProductCard';
 import {productSlider} from './features/productSlider/productSlider.js';
+import {Cart} from './modules/Cart/Cart.js';
 
 export const router = new Navigo('/', {linksSelector: 'a[href^="/"]'});
 
@@ -47,16 +48,19 @@ const init = () => {
       
       .on('/category',
           async ({params: {slug, page = 1}}) => {
-            await new Catalog().mount(new Main().element);
+            (await new Catalog().mount(new Main().element)).setActiveLink(slug);
             const {data: products, pagination} = await api.getProducts({
               category: slug,
               page: page,
             });
-            new BreadCrumbs().mount(new Catalog().element, [{text: slug}]);
+            new BreadCrumbs().mount(new Main().element, [{text: slug}]);
             new ProductList().mount(new Main().element, products, slug);
-            new Pagination()
-                .mount(new ProductList().containerElement)
-                .update(pagination);
+            
+            if (pagination.totalProducts > pagination.limit) {
+              new Pagination()
+                  .mount(new ProductList().containerElement)
+                  .update(pagination);
+            }
             router.updatePageLinks();
           },
           {
@@ -66,12 +70,15 @@ const init = () => {
               new Catalog().unmount();
               done();
             },
+            already(match) {
+              match.route.handler(match);
+            },
           },
       )
       
       .on('/favorite',
           async ({params}) => {
-            new BreadCrumbs().mount(new Catalog().element, [{text: 'Избранное'}]);
+            new BreadCrumbs().mount(new Main().element, [{text: 'Избранное'}]);
             await new Catalog().mount(new Main().element);
             const favorite = new FavoriteService().get();
             const {data: products, pagination} = await api.getProducts({
@@ -80,7 +87,10 @@ const init = () => {
             });
             new ProductList().mount(new Main().element, products, 'Избранное',
                 'Вы ничего не добавили в избранное, пожалуйста добавьте какой-нибудь товар');
-            new Pagination().mount(new ProductList().containerElement).update(pagination);
+            
+            if (pagination?.totalProducts > pagination?.limit) {
+              new Pagination().mount(new ProductList().containerElement).update(pagination);
+            }
             router.updatePageLinks();
           },
           {
@@ -96,8 +106,30 @@ const init = () => {
           },
       )
       
-      .on('/search', () => {
-            console.log('search');
+      .on('/search',
+          async ({params: {q}}) => {
+            new BreadCrumbs().mount(new Main().element, [{text: 'Поиск'}]);
+            await new Catalog().mount(new Main().element);
+            const {data: products, pagination} = await api.getProducts({
+              q,
+            });
+            new ProductList().mount(new Main().element, products, `Поиск: ${q}`,
+                'По вашему запросу ничего не найдено');
+            if (pagination?.totalProducts > pagination?.limit) {
+              new Pagination().mount(new ProductList().containerElement).update(pagination);
+            }
+            router.updatePageLinks();
+          },
+          {
+            leave(done) {
+              new BreadCrumbs().unmount();
+              new ProductList().unmount();
+              new Catalog().unmount();
+              done();
+            },
+            already(match) {
+              match.route.handler(match);
+            }
           },
       )
       
@@ -127,14 +159,23 @@ const init = () => {
           }
       )
       
-      .on('/cart', () => {
-            console.log('cart');
-          },
+      .on('/cart', async () => {
+          const cartItems = await api.getCart();
+          await new Cart().mount(new Main().element, cartItems, 'Корзина пуста. Добавьте товар.');
+        },
+        {
+          leave(done) {
+            new Cart().unmount();
+            done();
+          }
+        }
       )
       
-      .on('/order', () => {
-            new Order().mount(new Main().element);
-            router.updatePageLinks();
+      .on('/order/:id', async ({data: {id}}) => {
+        const data = await api.getOrder(id);
+        
+        await new Order().mount(new Main().element, data, '');
+        router.updatePageLinks();
           },
           {
             leave(done) {
@@ -159,7 +200,6 @@ const init = () => {
             leave(done) {
               const pageNotFound = new Main().element.querySelectorAll('.temp');
               for (let elem of pageNotFound) {
-                console.log('elem:', elem);
                 elem.remove();
               }
               done();
@@ -168,6 +208,10 @@ const init = () => {
       );
   
   router.resolve();
+  
+  api.getCart().then(data => {
+    new Header().changeCount(data.totalCount);
+  })
 };
 
 init();

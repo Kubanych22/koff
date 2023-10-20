@@ -1,6 +1,7 @@
 import {addContainer} from '../addContainer';
 import {Logo} from '../../features/Logo/Logo';
 import {likeSvg} from "../../features/likeSvg/likeSvg.js";
+import {router} from '../../main.js';
 
 export class Header {
   static instance = null;
@@ -40,7 +41,6 @@ export class Header {
   getSearchForm() {
     const searchForm = document.createElement('form');
     searchForm.classList.add('header__search');
-    // searchForm.action = '/search';
     searchForm.method = 'get';
     
     const input = document.createElement('input');
@@ -62,6 +62,11 @@ export class Header {
           stroke-linejoin="round"/>
       </svg>
     `;
+    
+    searchForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      router.navigate(`/search?q=${input.value}`)
+    });
     
     searchForm.append(input, button);
     return searchForm;
